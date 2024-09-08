@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ggym
+    ports:
+      - "5432:5432"
