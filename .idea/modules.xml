@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ggymproject.iml" filepath="$PROJECT_DIR$/.idea/ggymproject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ggymserver/ggymserver.iml" filepath="$PROJECT_DIR$/ggymserver/ggymserver.iml" />
     </modules>
   </component>
 </project>
