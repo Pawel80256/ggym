@@ -1,7 +1,7 @@
 --liquibase formatted sql
-
+--todo: add unique constraints
 --changeset pnowacki:1
-create table cv_muscle_part
+create table muscle_part
 (
     id    bigserial primary key,
     value varchar not null
@@ -18,13 +18,13 @@ create table exercise
 --changeset pnowacki:3
 create table exercises_muscle_parts
 (
-    exercise_id            bigint references exercise       not null,
-    muscle_part_id         bigint references cv_muscle_part not null,
-    muscle_part_engagement integer                          NOT NULL CHECK (muscle_part_engagement >= 1 AND muscle_part_engagement <= 10)
+    exercise_id            bigint references exercise    not null,
+    muscle_part_id         bigint references muscle_part not null,
+    muscle_part_engagement integer                       NOT NULL CHECK (muscle_part_engagement >= 1 AND muscle_part_engagement <= 10)
 );
 
 --changeset pnowacki:4
-create table cv_resistance_tool
+create table resistance_tool
 (
     id    bigserial primary key,
     value varchar not null
@@ -34,7 +34,7 @@ create table cv_resistance_tool
 create table load
 (
     id                 bigserial primary key,
-    resistance_tool_id bigint references cv_resistance_tool not null,
+    resistance_tool_id bigint references resistance_tool not null,
     weight             numeric,
     comment            varchar
 );
@@ -53,8 +53,8 @@ create table training
 create table exercise_instance
 (
     id          bigserial primary key,
-    exercise_id bigint references exercise,
-    training_id bigint references training
+    exercise_id bigint references exercise not null ,
+    training_id bigint references training not null
 );
 
 --changeset pnowacki:8
