@@ -19,6 +19,9 @@ public class Exercise {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private ExerciseType type;

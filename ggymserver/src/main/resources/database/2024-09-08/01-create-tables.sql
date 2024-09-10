@@ -1,21 +1,29 @@
 --liquibase formatted sql
---todo: add unique constraints
---changeset pnowacki:1
-create table muscle_part
+
+--changeset pnowacki:10
+create table ggym_user
 (
-    id    bigserial primary key,
-    value varchar not null
+    id   bigserial primary key,
+    name varchar not null
 );
 
---changeset pnowacki:2
+--changeset pnowacki:20
+create table muscle_part
+(
+    id   bigserial primary key,
+    name varchar unique not null
+);
+
+--changeset pnowacki:30
 create table exercise
 (
     id        bigserial primary key,
-    type      varchar not null,
-    intensity integer NOT NULL CHECK (intensity >= 1 AND intensity <= 10)
+    type      varchar        not null,
+    name      varchar unique not null,
+    intensity integer        NOT NULL CHECK (intensity >= 1 AND intensity <= 10)
 );
 
---changeset pnowacki:3
+--changeset pnowacki:40
 create table exercises_muscle_parts
 (
     exercise_id            bigint references exercise    not null,
@@ -23,46 +31,41 @@ create table exercises_muscle_parts
     muscle_part_engagement integer                       NOT NULL CHECK (muscle_part_engagement >= 1 AND muscle_part_engagement <= 10)
 );
 
---changeset pnowacki:4
+--changeset pnowacki:50
 create table resistance_tool
 (
-    id    bigserial primary key,
-    value varchar not null
+    id   bigserial primary key,
+    name varchar unique not null
 );
 
---changeset pnowacki:5
-create table load
-(
-    id                 bigserial primary key,
-    resistance_tool_id bigint references resistance_tool not null,
-    weight             numeric,
-    comment            varchar
-);
-
---changeset pnowacki:6
+--changeset pnowacki:60
 create table training
 (
     id         bigserial primary key,
+    user_id    bigint    not null references ggym_user,
     start_time timestamp not null,
-    end_time   timestamp not null,
-    comment    varchar
-    -- user_id
+    end_time   timestamp,
+    comment    varchar,
+    created    timestamp not null default current_timestamp
 );
 
---changeset pnowacki:7
+--changeset pnowacki:70
 create table exercise_instance
 (
     id          bigserial primary key,
-    exercise_id bigint references exercise not null ,
+    exercise_id bigint references exercise not null,
     training_id bigint references training not null
 );
 
---changeset pnowacki:8
+--changeset pnowacki:80
 create table exercise_set
 (
     id                   bigserial primary key,
-    repetitions          integer                             not null,
     exercise_instance_id bigint references exercise_instance not null,
-    load_id              bigint references load,
+    resistance_tool_id   bigint references resistance_tool   not null,
+    weight               numeric,
+    repetitions          integer                             not null,
+    comment              varchar,
     effort               integer                             NOT NULL CHECK (effort >= 1 AND effort <= 10)
 );
+
