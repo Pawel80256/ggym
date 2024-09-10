@@ -18,14 +18,21 @@ public class Training {
     @Column(name = "id")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
 
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time")
     private LocalDateTime endTime;
 
     @Column(name = "comment")
     private String comment;
+
+    @Column(name = "created")
+    private LocalDateTime created;
 
     @OneToMany(mappedBy = "training") //todo: orphan removal, cascade etc
     private Set<ExerciseInstance> exerciseInstanceSet = new HashSet<>();
