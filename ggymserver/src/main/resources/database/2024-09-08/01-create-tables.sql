@@ -3,8 +3,23 @@
 --changeset pnowacki:10
 create table ggym_user
 (
+    id    bigserial primary key,
+    name  varchar        not null,
+    email varchar unique not null
+);
+
+--changeset pnowacki:11
+create table role
+(
     id   bigserial primary key,
-    name varchar not null
+    name varchar unique not null
+);
+
+--changeset pnowacki:12
+create table users_roles
+(
+    user_id bigint references ggym_user,
+    role_id bigint references role
 );
 
 --changeset pnowacki:20
