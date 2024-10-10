@@ -5,7 +5,8 @@ create table ggym_user
 (
     id    bigserial primary key,
     name  varchar        not null,
-    email varchar unique not null
+    email varchar unique not null,
+    password varchar not null
 );
 
 --changeset pnowacki:11
