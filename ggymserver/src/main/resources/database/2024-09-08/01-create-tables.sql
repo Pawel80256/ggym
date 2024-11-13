@@ -17,6 +17,20 @@ create table role
 );
 
 --changeset pnowacki:12
+create table permission
+(
+    id bigserial primary key,
+    name varchar unique not null
+);
+
+--changeset pnowacki:13
+create table roles_permissions
+(
+    role_id bigint references role,
+    permission_id bigint references permission
+);
+
+--changeset pnowacki:15
 create table users_roles
 (
     user_id bigint references ggym_user,
