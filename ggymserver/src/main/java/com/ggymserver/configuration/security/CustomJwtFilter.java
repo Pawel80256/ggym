@@ -17,10 +17,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Component //moze powodowac podwojne wywolanie filtra, sprawdzic
 @RequiredArgsConstructor
 public class CustomJwtFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
-    private final UserDetailsService userDetailsService; //czy jest roznica jak tutaj dam GGUserDetailsService albo UserDetailsService?
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

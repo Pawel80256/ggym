@@ -2,6 +2,7 @@ package com.ggymserver.service;
 
 
 import com.ggymserver.model.entity.User;
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -16,16 +17,14 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    @Value("${security.jwt.secret-key}")
-    private String secretKey;
 
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
 
-    public String generateToken(User user) {
+    public String generateToken(UserDetails userDetails) {
         return Jwts
                 .builder()
-                .subject(user.getUsername())
+                .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignInKey())
@@ -65,7 +64,7 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        byte[] keyBytes = Decoders.BASE64.decode(Dotenv.load().get("JWT_SECRET"));
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

@@ -1,6 +1,8 @@
 package com.ggymserver.controller;
 
 import com.ggymserver.model.request.CreateUserRequest;
+import com.ggymserver.model.request.LoginRequest;
+import com.ggymserver.model.response.LoginResponse;
 import com.ggymserver.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,5 +22,10 @@ public class UserController {
     public ResponseEntity<Void> register(@RequestBody CreateUserRequest createUserRequest) {
         userService.save(createUserRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(userService.login(loginRequest));
     }
 }

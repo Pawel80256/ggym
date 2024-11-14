@@ -1,12 +1,17 @@
 package com.ggymserver.configuration.security;
 
+import com.ggymserver.model.entity.Permission;
+import com.ggymserver.model.entity.Role;
 import com.ggymserver.model.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 public class GGUserDetails implements UserDetails {
@@ -15,7 +20,14 @@ public class GGUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(); //todo: return roles from db
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        for (Role role : user.getRoles()) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+            for (Permission permission : role.getPermissions()) {
+                authorities.add(new SimpleGrantedAuthority(permission.getName()));
+            }
+        }
+        return authorities;
     }
 
     @Override
