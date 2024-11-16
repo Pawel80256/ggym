@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset pnowacki:1
+--changeset pnowacki:populate_muscle_parts
 insert into muscle_part (name)
 values ('CALF'),
        ('QUAD'),
@@ -17,7 +17,7 @@ values ('CALF'),
        ('TRICEPS'),
        ('FOREARM');
 
---changeset pnowacki:2
+--changeset pnowacki:populate_resistance_tools
 insert into resistance_tool (name)
 values ('DUMBBELL'),
        ('BARBELL'),
