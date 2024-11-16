@@ -7,23 +7,27 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "muscle_part")
-public class MusclePart {
+@Table(name = "planned_training_week")
+public class PlannedTrainingWeek {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "training_plan_id", nullable = false)
+    private TrainingPlan trainingPlan;
 
-    @Column(name = "description")
-    private String description;
+    @NotNull
+    @Column(name = "sequence", nullable = false)
+    private Integer sequence;
 
     @NotNull
     @ColumnDefault("CURRENT_TIMESTAMP")
@@ -34,5 +38,8 @@ public class MusclePart {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified;
+
+    @OneToMany(mappedBy = "plannedTrainingWeek")
+    private Set<PlannedTrainingDay> plannedTrainingDays = new LinkedHashSet<>();
 
 }

@@ -1,30 +1,46 @@
 package com.ggymserver.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Entity
-@Table(name = "exercise_instance")
 @Getter
 @Setter
+@Entity
+@Table(name = "exercise_instance")
 public class ExerciseInstance {
-
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "training_id", nullable = false)
     private Training training;
 
-    @OneToMany
-    @JoinColumn(name = "exercise_instance_id")
-    private List<ExerciseSet> sets;
+    @NotNull
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "created", nullable = false)
+    private LocalDateTime created;
+
+    @NotNull
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "modified", nullable = false)
+    private LocalDateTime modified;
+
+    @OneToMany(mappedBy = "exerciseInstance")
+    private Set<ExerciseSet> exerciseSets = new LinkedHashSet<>();
+
 }

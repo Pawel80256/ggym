@@ -22,7 +22,6 @@ create table exercise_type
 create table exercise
 (
     id               bigserial primary key,
-    type             varchar                         not null,
     name             varchar unique                  not null,
     description      varchar,
     exercise_type_id bigint references exercise_type not null,

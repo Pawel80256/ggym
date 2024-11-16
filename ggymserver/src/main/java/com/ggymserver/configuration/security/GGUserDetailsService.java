@@ -1,6 +1,7 @@
 package com.ggymserver.configuration.security;
 
 import com.ggymserver.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,7 +14,7 @@ public class GGUserDetailsService implements UserDetailsService {
     //todo: sprawdzic czy jest stosowane
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        var user = userRepository.findByName(username).orElseThrow(() -> new UsernameNotFoundException(username));
         return new GGUserDetails(user);
     }
 }

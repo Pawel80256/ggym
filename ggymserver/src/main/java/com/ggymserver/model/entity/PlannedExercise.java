@@ -11,19 +11,34 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "muscle_part")
-public class MusclePart {
+@Table(name = "planned_exercise")
+public class PlannedExercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "exercise_id", nullable = false)
+    private Exercise exercise;
 
-    @Column(name = "description")
-    private String description;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "planned_training_id", nullable = false)
+    private PlannedTraining plannedTraining;
+
+    @Column(name = "sets_count")
+    private Integer setsCount;
+
+    @Column(name = "reps_count")
+    private Integer repsCount;
+
+    @Column(name = "duration")
+    private Integer duration;
+
+    @Column(name = "sequence")
+    private Integer sequence;
 
     @NotNull
     @ColumnDefault("CURRENT_TIMESTAMP")

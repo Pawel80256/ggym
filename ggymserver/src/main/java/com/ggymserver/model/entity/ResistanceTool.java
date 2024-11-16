@@ -1,21 +1,38 @@
 package com.ggymserver.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
-@Entity
-@Table(name = "resistance_tool")
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
+@Entity
+@Table(name = "resistance_tool")
 public class ResistanceTool {
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "value", nullable = false)
-    private String value;
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @NotNull
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "created", nullable = false)
+    private LocalDateTime created;
+
+    @NotNull
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "modified", nullable = false)
+    private LocalDateTime modified;
+
 }

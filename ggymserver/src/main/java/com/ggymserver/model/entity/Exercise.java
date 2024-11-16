@@ -1,41 +1,47 @@
 package com.ggymserver.model.entity;
 
-import com.ggymserver.model.enums.ExerciseType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "exercise")
 @Getter
 @Setter
+@Entity
+@Table(name = "exercise")
 public class Exercise {
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ExerciseType type;
+    @Column(name = "description")
+    private String description;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "exercise_type_id", nullable = false)
+    private ExerciseType exerciseType;
+
+    @NotNull
     @Column(name = "intensity", nullable = false)
-    @Min(1)
-    @Max(10)
     private Integer intensity;
 
-    @ManyToMany
-    @JoinTable(
-            name = "exercises_muscle_parts",
-            joinColumns = @JoinColumn(name = "exercise_id"),
-            inverseJoinColumns = @JoinColumn(name = "muscle_part_id")
-    )
-    private Set<MusclePart> muscleParts = new HashSet<>();
+    @NotNull
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "created", nullable = false)
+    private LocalDateTime created;
+
+    @NotNull
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "modified", nullable = false)
+    private LocalDateTime modified;
+
 }

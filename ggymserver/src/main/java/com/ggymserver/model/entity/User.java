@@ -1,36 +1,58 @@
 package com.ggymserver.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.HashSet;
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "ggym_user")
 @Getter
 @Setter
-public class User{
+@Entity
+@Table(name = "ggym_user")
+public class User {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotNull
     @Column(name = "name", nullable = false)
-    private String username;
+    private String name;
 
+    @NotNull
     @Column(name = "email", nullable = false)
     private String email;
 
+    @NotNull
     @Column(name = "password", nullable = false)
     private String password;
 
+    @CreationTimestamp
+    @Column(name = "created", nullable = false,  updatable = false)
+    private LocalDateTime created;
+
+    @UpdateTimestamp
+    @Column(name = "modified", nullable = false)
+    private LocalDateTime modified;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Training> trainings = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "owner")
+    private Set<TrainingPlan> trainingPlans = new LinkedHashSet<>();
+
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
+    @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new LinkedHashSet<>();
+
 }
