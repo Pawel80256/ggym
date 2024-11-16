@@ -1,4 +1,4 @@
-package com.ggymserver.model.entity;
+package com.ggymserver.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -13,22 +13,26 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "training_plan")
-public class TrainingPlan {
+@Table(name = "planned_training")
+public class PlannedTraining {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "description")
+    private String description;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @ColumnDefault("nextval('training_plan_owner_seq')")
-    @JoinColumn(name = "owner", nullable = false)
-    private User owner;
+    @JoinColumn(name = "planned_training_day_id", nullable = false)
+    private PlannedTrainingDay plannedTrainingDay;
+
+    @Column(name = "sequence")
+    private Integer sequence;
 
     @NotNull
     @ColumnDefault("CURRENT_TIMESTAMP")
@@ -40,10 +44,7 @@ public class TrainingPlan {
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified;
 
-    @OneToMany(mappedBy = "trainingPlan")
-    private Set<PlannedTrainingWeek> plannedTrainingWeeks = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "trainingPlan")
-    private Set<Training> trainings = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "plannedTraining")
+    private Set<PlannedExercise> plannedExercises = new LinkedHashSet<>();
 
 }

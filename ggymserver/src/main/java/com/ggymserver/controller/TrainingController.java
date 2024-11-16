@@ -1,6 +1,6 @@
 package com.ggymserver.controller;
 
-import com.ggymserver.model.entity.Training;
+import com.ggymserver.entity.Training;
 import com.ggymserver.service.TrainingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

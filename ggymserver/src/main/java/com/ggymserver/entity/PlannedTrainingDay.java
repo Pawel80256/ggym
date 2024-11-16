@@ -1,4 +1,4 @@
-package com.ggymserver.model.entity;
+package com.ggymserver.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -6,41 +6,34 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "exercise_set")
-public class ExerciseSet {
+@Table(name = "planned_training_day")
+public class PlannedTrainingDay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
+    @NotNull
+    @Column(name = "day_of_the_week", nullable = false)
+    private Integer dayOfTheWeek;
+
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "exercise_instance_id", nullable = false)
-    private ExerciseInstance exerciseInstance;
+    @JoinColumn(name = "planned_training_week_id", nullable = false)
+    private PlannedTrainingWeek plannedTrainingWeek;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "resistance_tool_id", nullable = false)
-    private ResistanceTool resistanceTool;
-
-    @Column(name = "weight")
-    private BigDecimal weight;
-
-    @Column(name = "repetitions")
-    private Integer repetitions;
-
-    @Column(name = "comment")
-    private String comment;
-
-    @NotNull
-    @Column(name = "effort", nullable = false)
-    private Integer effort;
+    @Column(name = "notes")
+    private String notes;
 
     @NotNull
     @ColumnDefault("CURRENT_TIMESTAMP")
@@ -51,5 +44,8 @@ public class ExerciseSet {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified;
+
+    @OneToMany(mappedBy = "plannedTrainingDay")
+    private Set<PlannedTraining> plannedTrainings = new LinkedHashSet<>();
 
 }

@@ -1,18 +1,21 @@
-package com.ggymserver.model.entity;
+package com.ggymserver.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "resistance_tool")
-public class ResistanceTool {
+@Table(name = "role")
+public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -21,9 +24,6 @@ public class ResistanceTool {
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "description")
-    private String description;
 
     @NotNull
     @ColumnDefault("CURRENT_TIMESTAMP")
@@ -35,4 +35,16 @@ public class ResistanceTool {
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "roles_permissions",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id")
+    )
+    private Set<Permission> permissions = new LinkedHashSet<>();
+
+    @Override
+    public String getAuthority() {
+        return name;
+    }
 }

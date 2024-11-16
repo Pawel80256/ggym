@@ -1,8 +1,8 @@
 package com.ggymserver.configuration.security;
 
-import com.ggymserver.model.entity.Permission;
-import com.ggymserver.model.entity.Role;
-import com.ggymserver.model.entity.User;
+import com.ggymserver.entity.Permission;
+import com.ggymserver.entity.Role;
+import com.ggymserver.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

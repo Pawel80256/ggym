@@ -1,6 +1,6 @@
 package com.ggymserver.service;
 
-import com.ggymserver.model.entity.Training;
+import com.ggymserver.entity.Training;
 import com.ggymserver.repository.TrainingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

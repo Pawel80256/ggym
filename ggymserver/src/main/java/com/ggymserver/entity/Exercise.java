@@ -1,4 +1,4 @@
-package com.ggymserver.model.entity;
+package com.ggymserver.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -7,14 +7,12 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "exercise_type")
-public class ExerciseType {
+@Table(name = "exercise")
+public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -28,6 +26,15 @@ public class ExerciseType {
     private String description;
 
     @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "exercise_type_id", nullable = false)
+    private ExerciseType exerciseType;
+
+    @NotNull
+    @Column(name = "intensity", nullable = false)
+    private Integer intensity;
+
+    @NotNull
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created", nullable = false)
     private LocalDateTime created;
@@ -36,8 +43,5 @@ public class ExerciseType {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified;
-
-    @OneToMany(mappedBy = "exerciseType")
-    private Set<Exercise> exercises = new LinkedHashSet<>();
 
 }

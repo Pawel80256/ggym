@@ -1,4 +1,4 @@
-package com.ggymserver.model.entity;
+package com.ggymserver.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -7,38 +7,28 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "planned_exercise")
-public class PlannedExercise {
+@Table(name = "training_plan")
+public class TrainingPlan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "exercise_id", nullable = false)
-    private Exercise exercise;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "planned_training_id", nullable = false)
-    private PlannedTraining plannedTraining;
-
-    @Column(name = "sets_count")
-    private Integer setsCount;
-
-    @Column(name = "reps_count")
-    private Integer repsCount;
-
-    @Column(name = "duration")
-    private Integer duration;
-
-    @Column(name = "sequence")
-    private Integer sequence;
+    @ColumnDefault("nextval('training_plan_owner_seq')")
+    @JoinColumn(name = "owner", nullable = false)
+    private User owner;
 
     @NotNull
     @ColumnDefault("CURRENT_TIMESTAMP")
@@ -49,5 +39,11 @@ public class PlannedExercise {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified;
+
+    @OneToMany(mappedBy = "trainingPlan")
+    private Set<PlannedTrainingWeek> plannedTrainingWeeks = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "trainingPlan")
+    private Set<Training> trainings = new LinkedHashSet<>();
 
 }

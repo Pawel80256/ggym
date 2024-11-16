@@ -1,8 +1,8 @@
 package com.ggymserver.controller;
 
-import com.ggymserver.model.request.CreateUserRequest;
-import com.ggymserver.model.request.LoginRequest;
-import com.ggymserver.model.response.LoginResponse;
+import com.ggymserver.dto.request.RegisterUserDTO;
+import com.ggymserver.dto.request.LoginDTO;
+import com.ggymserver.dto.response.LoginResponseDTO;
 import com.ggymserver.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +19,13 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody CreateUserRequest createUserRequest) {
-        userService.save(createUserRequest);
+    public ResponseEntity<Void> register(@RequestBody RegisterUserDTO registerUserDTO) {
+        userService.save(registerUserDTO);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(userService.login(loginRequest));
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
+        return ResponseEntity.ok(userService.login(loginDTO));
     }
 }

@@ -1,11 +1,10 @@
 package com.ggymserver.service;
 
-import com.ggymserver.model.entity.User;
-import com.ggymserver.model.request.CreateUserRequest;
-import com.ggymserver.model.request.LoginRequest;
-import com.ggymserver.model.response.LoginResponse;
+import com.ggymserver.entity.User;
+import com.ggymserver.dto.request.RegisterUserDTO;
+import com.ggymserver.dto.request.LoginDTO;
+import com.ggymserver.dto.response.LoginResponseDTO;
 import com.ggymserver.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,20 +21,20 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    public void save(CreateUserRequest createUserRequest) {
+    public void save(RegisterUserDTO registerUserDTO) {
         User user = new User();
-        user.setName(createUserRequest.name());
-        user.setEmail(createUserRequest.email());
-        user.setPassword(passwordEncoder.encode(createUserRequest.password()));
+        user.setName(registerUserDTO.name());
+        user.setEmail(registerUserDTO.email());
+        user.setPassword(passwordEncoder.encode(registerUserDTO.password()));
         userRepository.save(user);
     }
 
-    public LoginResponse login(LoginRequest loginRequest) {
+    public LoginResponseDTO login(LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.name(), loginRequest.password())
+                new UsernamePasswordAuthenticationToken(loginDTO.name(), loginDTO.password())
         );
         String jwt = jwtService.generateToken((UserDetails) authentication.getPrincipal());
 
-        return new LoginResponse(jwt);
+        return new LoginResponseDTO(jwt);
     }
 }

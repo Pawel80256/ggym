@@ -1,6 +1,6 @@
 package com.ggymserver.repository;
 
-import com.ggymserver.model.entity.User;
+import com.ggymserver.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
