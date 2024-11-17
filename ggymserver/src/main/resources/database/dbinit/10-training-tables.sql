@@ -35,7 +35,8 @@ create table exercises_muscle_parts
 (
     exercise_id            bigint references exercise    not null,
     muscle_part_id         bigint references muscle_part not null,
-    muscle_part_engagement integer                       NOT NULL CHECK (muscle_part_engagement >= 1 AND muscle_part_engagement <= 10)
+    muscle_part_engagement integer                       NOT NULL CHECK (muscle_part_engagement >= 1 AND muscle_part_engagement <= 10),
+    primary key (exercise_id, muscle_part_id)
 );
 
 --changeset pnowacki:create_resistance_tool

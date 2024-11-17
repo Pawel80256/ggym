@@ -5,7 +5,7 @@ create table planned_training_week
 (
     id               bigserial primary key,
     training_plan_id bigint references training_plan not null,
-    sequence            integer                         not null,
+    sequence         integer                         not null,
     created          timestamp                       not null default current_timestamp,
     modified         timestamp                       not null default current_timestamp
 );
@@ -29,7 +29,7 @@ create table planned_training
     name                    varchar,
     description             varchar,
     planned_training_day_id bigint references planned_training_day not null,
-    sequence                   integer,
+    sequence                integer,
     created                 timestamp                              not null default current_timestamp,
     modified                timestamp                              not null default current_timestamp
 );
@@ -43,7 +43,7 @@ create table planned_exercise
     sets_count          integer, --for 1st ver. supports only the same number of reps in each set
     reps_count          integer,
     duration            integer, --in seconds
-    sequence               integer,
+    sequence            integer,
     created             timestamp                          not null default current_timestamp,
     modified            timestamp                          not null default current_timestamp
 );

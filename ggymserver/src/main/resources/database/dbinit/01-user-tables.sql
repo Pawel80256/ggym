@@ -7,38 +7,40 @@ create table ggym_user
     name     varchar        not null,
     email    varchar unique not null,
     password varchar        not null,
-    created     timestamp      not null default current_timestamp,
-    modified    timestamp      not null default current_timestamp
+    created  timestamp      not null default current_timestamp,
+    modified timestamp      not null default current_timestamp
 );
 
 --changeset pnowacki:create_role
 create table role
 (
-    id   bigserial primary key,
-    name varchar unique not null,
-    created     timestamp      not null default current_timestamp,
-    modified    timestamp      not null default current_timestamp
+    id       bigserial primary key,
+    name     varchar unique not null,
+    created  timestamp      not null default current_timestamp,
+    modified timestamp      not null default current_timestamp
 );
 
 --changeset pnowacki:create_permission
 create table permission
 (
-    id   bigserial primary key,
-    name varchar unique not null,
-    created     timestamp      not null default current_timestamp,
-    modified    timestamp      not null default current_timestamp
+    id       bigserial primary key,
+    name     varchar unique not null,
+    created  timestamp      not null default current_timestamp,
+    modified timestamp      not null default current_timestamp
 );
 
 --changeset pnowacki:role_permissions
 create table roles_permissions
 (
     role_id       bigint references role,
-    permission_id bigint references permission
+    permission_id bigint references permission,
+    primary key (role_id, permission_id)
 );
 
 --changeset pnowacki:user_roles
 create table users_roles
 (
     user_id bigint references ggym_user,
-    role_id bigint references role
+    role_id bigint references role,
+    primary key (user_id, role_id)
 );
