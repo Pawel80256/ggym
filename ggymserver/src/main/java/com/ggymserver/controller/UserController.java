@@ -1,15 +1,13 @@
 package com.ggymserver.controller;
 
-import com.ggymserver.dto.request.RegisterUserDTO;
 import com.ggymserver.dto.request.LoginDTO;
+import com.ggymserver.dto.request.RegisterUserDTO;
 import com.ggymserver.dto.response.LoginResponseDTO;
 import com.ggymserver.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,5 +25,15 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
         return ResponseEntity.ok(userService.login(loginDTO));
+    }
+
+    @PreAuthorize("hasAuthority('MANAGE_TRAINING')")
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        int x = 2+1;
+        for (int i = 0 ; i <= x ; i++){
+            System.out.println("xd");
+        }
+        return ResponseEntity.ok("test");
     }
 }

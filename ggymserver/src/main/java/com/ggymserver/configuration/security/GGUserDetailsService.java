@@ -1,7 +1,6 @@
 package com.ggymserver.configuration.security;
 
 import com.ggymserver.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

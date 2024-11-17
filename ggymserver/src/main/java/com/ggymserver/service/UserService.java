@@ -1,9 +1,9 @@
 package com.ggymserver.service;
 
-import com.ggymserver.entity.User;
-import com.ggymserver.dto.request.RegisterUserDTO;
 import com.ggymserver.dto.request.LoginDTO;
+import com.ggymserver.dto.request.RegisterUserDTO;
 import com.ggymserver.dto.response.LoginResponseDTO;
+import com.ggymserver.entity.User;
 import com.ggymserver.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

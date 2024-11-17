@@ -4,4 +4,7 @@
     <option name="reLastEntityCreationPackage" value="ggymserver/src/main/java/com/ggymserver/model/entity" />
     <option name="reverseEngineeringLastDbConnectionId" value="8a73fbaf-56ad-4214-8d2b-597d67daa6a4" />
   </component>
+  <component name="JpaPluginProjectSettings">
+    <option name="lastSelectedLanguage" value="Java" />
+  </component>
 </project>
