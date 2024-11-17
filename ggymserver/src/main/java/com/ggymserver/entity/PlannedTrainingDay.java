@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -35,17 +37,15 @@ public class PlannedTrainingDay {
     @Column(name = "notes")
     private String notes;
 
-    @NotNull
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @CreationTimestamp
     @Column(name = "created", nullable = false)
     private LocalDateTime created;
 
-    @NotNull
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @UpdateTimestamp
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified;
 
-    @OneToMany(mappedBy = "plannedTrainingDay")
+    @OneToMany(mappedBy = "plannedTrainingDay", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PlannedTraining> plannedTrainings = new LinkedHashSet<>();
 
 }

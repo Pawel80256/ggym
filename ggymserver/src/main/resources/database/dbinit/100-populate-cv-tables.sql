@@ -25,3 +25,12 @@ values ('DUMBBELL'),
        ('RESISTANCE_BAND'),
        ('WEIGHT_BELT'),
        ('NONE');
+
+--changeset pnowacki:populate_exercise_types
+insert into exercise_type (id, name, description)
+values (1, 'MULTI_JOINT', 'MULTI_JOINT');
+
+--changeset pnowacki:populate_exercises
+insert into exercise (id, name, description, exercise_type_id, intensity)
+values (1,'BENCH_PRESS', 'Bench press',1,7);
+

@@ -40,7 +40,7 @@ public class TrainingPlan {
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified;
 
-    @OneToMany(mappedBy = "trainingPlan")
+    @OneToMany(mappedBy = "trainingPlan", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PlannedTrainingWeek> plannedTrainingWeeks = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "trainingPlan")

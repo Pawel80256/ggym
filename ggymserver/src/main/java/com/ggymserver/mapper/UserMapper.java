@@ -6,8 +6,9 @@ import com.ggymserver.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {PasswordEncoderMapper.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {PasswordEncoderMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
     @Mapping(target = "password", qualifiedBy = EncodedMapping.class)
