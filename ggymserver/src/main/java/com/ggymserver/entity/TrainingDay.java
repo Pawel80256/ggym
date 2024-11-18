@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,7 +15,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "planned_training_day")
-public class PlannedTrainingDay {
+public class TrainingDay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -32,7 +31,7 @@ public class PlannedTrainingDay {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "planned_training_week_id", nullable = false)
-    private PlannedTrainingWeek plannedTrainingWeek;
+    private TrainingWeek trainingWeek;
 
     @Column(name = "notes")
     private String notes;
@@ -45,7 +44,11 @@ public class PlannedTrainingDay {
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified;
 
-    @OneToMany(mappedBy = "plannedTrainingDay", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "trainingDay", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PlannedTraining> plannedTrainings = new LinkedHashSet<>();
 
+    public void addPlannedTraining(PlannedTraining plannedTraining) {
+        plannedTrainings.add(plannedTraining);
+        plannedTraining.setTrainingDay(this);
+    }
 }

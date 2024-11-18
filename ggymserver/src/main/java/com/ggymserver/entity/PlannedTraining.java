@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -31,7 +30,7 @@ public class PlannedTraining {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "planned_training_day_id", nullable = false)
-    private PlannedTrainingDay plannedTrainingDay;
+    private TrainingDay trainingDay;
 
     @Column(name = "sequence")
     private Integer sequence;
@@ -47,4 +46,8 @@ public class PlannedTraining {
     @OneToMany(mappedBy = "plannedTraining", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PlannedExercise> plannedExercises = new LinkedHashSet<>();
 
+    public void addPlannedExercise(PlannedExercise plannedExercise) {
+        plannedExercises.add(plannedExercise);
+        plannedExercise.setPlannedTraining(this);
+    }
 }

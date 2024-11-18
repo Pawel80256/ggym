@@ -1,15 +1,15 @@
 package com.ggymserver.dto.request;
 
+import com.ggymserver.entity.TrainingDay;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Set;
 
 /**
- * DTO for {@link com.ggymserver.entity.PlannedTrainingDay}
+ * DTO for {@link TrainingDay}
  */
-public record CreatePlannedTrainingDayDto(
+public record CreateTrainingDayDto(
         String name,
         @NotNull Integer dayOfTheWeek,
         String notes,

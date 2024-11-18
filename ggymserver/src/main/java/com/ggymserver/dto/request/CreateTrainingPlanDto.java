@@ -11,5 +11,5 @@ import java.util.Set;
  */
 public record CreateTrainingPlanDto(
         @NotBlank String name,
-        Set<CreatePlannedTrainingWeekDto> plannedTrainingWeeks) implements Serializable {
+        Set<CreateTrainingWeekDto> plannedTrainingWeeks) implements Serializable {
   }

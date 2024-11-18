@@ -41,9 +41,13 @@ public class TrainingPlan {
     private LocalDateTime modified;
 
     @OneToMany(mappedBy = "trainingPlan", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PlannedTrainingWeek> plannedTrainingWeeks = new LinkedHashSet<>();
+    private Set<TrainingWeek> trainingWeeks = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "trainingPlan")
     private Set<Training> trainings = new LinkedHashSet<>();
 
+    public void addTrainingWeek(TrainingWeek trainingWeek) {
+        this.trainingWeeks.add(trainingWeek);
+        trainingWeek.setTrainingPlan(this);
+    }
 }
