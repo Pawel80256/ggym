@@ -25,10 +25,11 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                                .requestMatchers("/user/register").permitAll()
-                                .requestMatchers("/user/login").permitAll()
-                                .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll() //forward?
-                                .anyRequest().authenticated()
+                        .requestMatchers("/user/register").permitAll()
+                        .requestMatchers("/user/login").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll() //forward?
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
