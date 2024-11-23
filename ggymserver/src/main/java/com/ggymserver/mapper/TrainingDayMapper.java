@@ -1,6 +1,6 @@
 package com.ggymserver.mapper;
 
-import com.ggymserver.dto.request.TrainingDayDto;
+import com.ggymserver.dto.TrainingDayDto;
 import com.ggymserver.entity.TrainingDay;
 import org.mapstruct.*;
 

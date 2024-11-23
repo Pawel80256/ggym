@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,11 +28,6 @@ public class Exercise {
     private String description;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "exercise_type_id", nullable = false)
-    private ExerciseType exerciseType;
-
-    @NotNull
     @Column(name = "intensity", nullable = false)
     private Integer intensity;
 
@@ -43,5 +40,11 @@ public class Exercise {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified;
+
+    @ManyToMany
+    @JoinTable(name = "exercises_types",
+            joinColumns = @JoinColumn(name = "exercise_id"),
+            inverseJoinColumns = @JoinColumn(name = "exercise_type_id"))
+    private Set<ExerciseType> exerciseTypes = new LinkedHashSet<>();
 
 }

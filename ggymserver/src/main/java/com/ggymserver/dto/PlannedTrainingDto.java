@@ -1,4 +1,4 @@
-package com.ggymserver.dto.request;
+package com.ggymserver.dto;
 
 import java.io.Serializable;
 import java.util.Set;

@@ -1,8 +1,8 @@
 package com.ggymserver.service;
 
-import com.ggymserver.dto.request.LoginDTO;
-import com.ggymserver.dto.request.RegisterUserDTO;
-import com.ggymserver.dto.response.LoginResponseDTO;
+import com.ggymserver.dto.LoginDTO;
+import com.ggymserver.dto.LoginResponseDTO;
+import com.ggymserver.dto.RegisterUserDTO;
 import com.ggymserver.entity.User;
 import com.ggymserver.mapper.UserMapper;
 import com.ggymserver.repository.UserRepository;

@@ -1,4 +1,4 @@
-package com.ggymserver.dto.request;
+package com.ggymserver.dto;
 
 import com.ggymserver.entity.TrainingWeek;
 import jakarta.validation.constraints.NotNull;

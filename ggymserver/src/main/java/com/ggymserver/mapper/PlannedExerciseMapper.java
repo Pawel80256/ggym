@@ -1,6 +1,6 @@
 package com.ggymserver.mapper;
 
-import com.ggymserver.dto.request.PlannedExerciseDto;
+import com.ggymserver.dto.PlannedExerciseDto;
 import com.ggymserver.entity.PlannedExercise;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

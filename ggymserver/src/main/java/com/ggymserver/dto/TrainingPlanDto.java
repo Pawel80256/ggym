@@ -1,4 +1,4 @@
-package com.ggymserver.dto.request;
+package com.ggymserver.dto;
 
 import com.ggymserver.entity.TrainingPlan;
 import jakarta.validation.constraints.NotBlank;

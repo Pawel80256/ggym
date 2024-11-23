@@ -1,4 +1,4 @@
-package com.ggymserver.dto.request;
+package com.ggymserver.dto;
 
 import jakarta.validation.constraints.NotNull;
 

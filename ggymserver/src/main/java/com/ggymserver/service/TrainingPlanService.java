@@ -1,7 +1,7 @@
 package com.ggymserver.service;
 
-import com.ggymserver.dto.request.TrainingPlanDto;
-import com.ggymserver.dto.request.TrainingWeekDto;
+import com.ggymserver.dto.TrainingPlanDto;
+import com.ggymserver.dto.TrainingWeekDto;
 import com.ggymserver.entity.TrainingPlan;
 import com.ggymserver.entity.TrainingWeek;
 import com.ggymserver.entity.User;

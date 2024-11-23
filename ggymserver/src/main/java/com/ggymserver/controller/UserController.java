@@ -1,8 +1,8 @@
 package com.ggymserver.controller;
 
-import com.ggymserver.dto.request.LoginDTO;
-import com.ggymserver.dto.request.RegisterUserDTO;
-import com.ggymserver.dto.response.LoginResponseDTO;
+import com.ggymserver.dto.LoginDTO;
+import com.ggymserver.dto.LoginResponseDTO;
+import com.ggymserver.dto.RegisterUserDTO;
 import com.ggymserver.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.NaturalId;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -21,6 +22,7 @@ public class ExerciseType {
     private Long id;
 
     @NotNull
+    @NaturalId
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -37,7 +39,7 @@ public class ExerciseType {
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified;
 
-    @OneToMany(mappedBy = "exerciseType")
+    @ManyToMany(mappedBy = "exerciseTypes")
     private Set<Exercise> exercises = new LinkedHashSet<>();
 
 }

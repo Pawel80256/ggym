@@ -1,7 +1,7 @@
 package com.ggymserver.mapper;
 
 import com.ggymserver.annotations.EncodedMapping;
-import com.ggymserver.dto.request.RegisterUserDTO;
+import com.ggymserver.dto.RegisterUserDTO;
 import com.ggymserver.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

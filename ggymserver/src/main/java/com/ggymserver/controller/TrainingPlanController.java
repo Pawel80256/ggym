@@ -1,6 +1,6 @@
 package com.ggymserver.controller;
 
-import com.ggymserver.dto.request.TrainingPlanDto;
+import com.ggymserver.dto.TrainingPlanDto;
 import com.ggymserver.service.TrainingPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -24,10 +24,16 @@ create table exercise
     id               bigserial primary key,
     name             varchar unique                  not null,
     description      varchar,
-    exercise_type_id bigint references exercise_type not null,
     intensity        integer                         NOT NULL CHECK (intensity >= 1 AND intensity <= 10),
     created          timestamp                       not null default current_timestamp,
     modified         timestamp                       not null default current_timestamp
+);
+
+--changeset pnowacki:create_exercises_types
+create table exercises_types
+(
+    exercise_id bigserial references exercise,
+    exercise_type_id bigserial references exercise_type
 );
 
 --changeset pnowacki:create_exercises_muscle_parts
