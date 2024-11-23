@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * DTO for {@link TrainingWeek}
  */
-public record CreateTrainingWeekDto(
+public record TrainingWeekDto(
         @NotNull Integer sequence,
-        Set<CreateTrainingDayDto> trainingDays) implements Serializable {
+        Set<TrainingDayDto> trainingDays) implements Serializable {
 }

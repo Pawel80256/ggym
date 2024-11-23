@@ -1,7 +1,7 @@
 package com.ggymserver.service;
 
-import com.ggymserver.dto.request.CreateTrainingPlanDto;
-import com.ggymserver.dto.request.CreateTrainingWeekDto;
+import com.ggymserver.dto.request.TrainingPlanDto;
+import com.ggymserver.dto.request.TrainingWeekDto;
 import com.ggymserver.entity.TrainingPlan;
 import com.ggymserver.entity.TrainingWeek;
 import com.ggymserver.entity.User;
@@ -21,7 +21,13 @@ public class TrainingPlanService {
     private final UserRepository userRepository;
     private final TrainingWeekMapper trainingWeekMapper;
 
-    public void create(CreateTrainingPlanDto createDTO) {
+    public TrainingPlanDto getById(Long trainingPlanId){
+        var trainingPlan = trainingPlanRepository.findById(trainingPlanId)
+                .orElseThrow(() -> new IllegalArgumentException("Training plan not found"));
+        return trainingPlanMapper.toDto(trainingPlan);
+    }
+
+    public void create(TrainingPlanDto createDTO) {
         TrainingPlan trainingPlan = trainingPlanMapper.toEntity(createDTO);
 
         User createdBy = userRepository.findByName(AuthUtil.getCurrentUserName())
@@ -31,7 +37,14 @@ public class TrainingPlanService {
         trainingPlanRepository.save(trainingPlan);
     }
 
-    public void addTrainingWeek(Long trainingPlanId, CreateTrainingWeekDto trainingWeekDTO) {
+    public void update(Long trainingPlanId, TrainingPlanDto updateDTO) {
+        var trainingPlan = trainingPlanRepository.findById(trainingPlanId)
+                .orElseThrow(() -> new IllegalArgumentException("Training plan not found"));
+        trainingPlanMapper.toEntityUpdate(updateDTO, trainingPlan);
+        trainingPlanRepository.save(trainingPlan);
+    }
+
+    public void addTrainingWeek(Long trainingPlanId, TrainingWeekDto trainingWeekDTO) {
         var trainingPlan = trainingPlanRepository.findById(trainingPlanId)
                 .orElseThrow(() -> new IllegalArgumentException("Training plan not found"));
         TrainingWeek trainingWeek = trainingWeekMapper.toEntity(trainingWeekDTO);

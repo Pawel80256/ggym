@@ -6,9 +6,9 @@ import java.util.Set;
 /**
  * DTO for {@link com.ggymserver.entity.PlannedTraining}
  */
-public record CreatePlannedTrainingDto(
+public record PlannedTrainingDto(
         String name,
         String description,
         Integer sequence,
-        Set<CreatePlannedExerciseDto> plannedExercises) implements Serializable {
+        Set<PlannedExerciseDto> plannedExercises) implements Serializable {
 }

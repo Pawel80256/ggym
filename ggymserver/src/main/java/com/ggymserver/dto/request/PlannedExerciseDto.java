@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * DTO for {@link com.ggymserver.entity.PlannedExercise}
  */
-public record CreatePlannedExerciseDto(
+public record PlannedExerciseDto(
         @NotNull Long exerciseId,
         Integer setsCount,
         Integer repsCount,

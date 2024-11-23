@@ -1,6 +1,6 @@
 package com.ggymserver.mapper;
 
-import com.ggymserver.dto.request.CreateTrainingWeekDto;
+import com.ggymserver.dto.request.TrainingWeekDto;
 import com.ggymserver.entity.TrainingWeek;
 import org.mapstruct.*;
 
@@ -10,10 +10,10 @@ import org.mapstruct.*;
         uses = {TrainingDayMapper.class}
 )
 public interface TrainingWeekMapper {
-    TrainingWeek toEntity(CreateTrainingWeekDto createTrainingWeekDto);
+    TrainingWeek toEntity(TrainingWeekDto trainingWeekDto);
 
     @AfterMapping
-    default void linkDays (@MappingTarget TrainingWeek trainingWeek, CreateTrainingWeekDto dto) {
+    default void linkDays (@MappingTarget TrainingWeek trainingWeek, TrainingWeekDto dto) {
         if(dto.trainingDays() != null && !dto.trainingDays().isEmpty()) {
             trainingWeek.getTrainingDays().forEach(day -> day.setTrainingWeek(trainingWeek));
         }

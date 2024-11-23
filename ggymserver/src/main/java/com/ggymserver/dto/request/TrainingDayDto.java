@@ -9,9 +9,9 @@ import java.util.Set;
 /**
  * DTO for {@link TrainingDay}
  */
-public record CreateTrainingDayDto(
+public record TrainingDayDto(
         String name,
         @NotNull Integer dayOfTheWeek,
         String notes,
-        Set<CreatePlannedTrainingDto> plannedTrainings) implements Serializable {
+        Set<PlannedTrainingDto> plannedTrainings) implements Serializable {
 }
