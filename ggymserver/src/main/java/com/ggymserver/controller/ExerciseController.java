@@ -2,12 +2,11 @@ package com.ggymserver.controller;
 
 import com.ggymserver.entity.ExerciseDto;
 import com.ggymserver.service.ExerciseService;
+import com.ggymserver.utility.LazyRequest;
+import com.ggymserver.utility.LazyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,10 +16,10 @@ import java.util.List;
 public class ExerciseController {
     private final ExerciseService exerciseService;
 
-    @GetMapping
-    public ResponseEntity<List<ExerciseDto>> getByExerciseTypes(
-            @RequestParam(required = false) List<String> types
-    ){
-        return ResponseEntity.ok(exerciseService.getByExerciseTypes(types));
+    @PostMapping("/lazy")
+    public ResponseEntity<LazyResponse<ExerciseDto>> getLazy(
+            @RequestBody LazyRequest lazyRequest
+            ){
+        return ResponseEntity.ok(exerciseService.getLazy(lazyRequest));
     }
 }

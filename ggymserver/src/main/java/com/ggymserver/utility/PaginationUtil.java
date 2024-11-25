@@ -1,6 +1,5 @@
 package com.ggymserver.utility;
 
-
 import jakarta.persistence.criteria.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -15,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,7 +63,6 @@ public class PaginationUtil {
         return Sort.by(orders);
     }
 
-
     private static <T> Specification<T> buildFiltering(List<Filtering> filters, List<FieldPath> fieldPaths) {
         return filters.stream()
                 .map(filter -> switch (filter.filteringType()) {
@@ -71,21 +70,24 @@ public class PaginationUtil {
                     case EQUALS -> PaginationUtil.<T>equals(filter, fieldPaths);
                     case IN -> PaginationUtil.<T>in(filter, fieldPaths);
                     case BETWEEN -> PaginationUtil.<T>between(filter, fieldPaths);
+                    case CONTAINS_ALL -> PaginationUtil.<T>containsAll(filter, fieldPaths);
                 }).reduce(Specification::and).orElse(null);
     }
 
-    private static <T> Specification<T> like(Filtering filter, List<FieldPath> fieldPaths
-    ) {
+    private static <T> Specification<T> like(Filtering filter, List<FieldPath> fieldPaths) {
         return (root, query, criteriaBuilder) ->
-                criteriaBuilder.like(getPathForColumn(root, filter, fieldPaths
-                ), filter.value().get(0) + "%");
+                criteriaBuilder.like(
+                        getPathForColumn(root, filter, fieldPaths).as(String.class),
+                        filter.value().get(0) + "%"
+                );
     }
 
-    private static <T> Specification<T> equals(Filtering filter, List<FieldPath> fieldPaths
-    ) {
+    private static <T> Specification<T> equals(Filtering filter, List<FieldPath> fieldPaths) {
         return (root, query, criteriaBuilder) ->
-                criteriaBuilder.equal(getPathForColumn(root, filter, fieldPaths
-                ), filter.value().get(0));
+                criteriaBuilder.equal(
+                        getPathForColumn(root, filter, fieldPaths),
+                        filter.value().get(0)
+                );
     }
 
     private static <T> Specification<T> in(Filtering filter, List<FieldPath> fieldPaths) {
@@ -96,10 +98,9 @@ public class PaginationUtil {
         };
     }
 
-    private static <T> Specification<T> between(Filtering filter, List<FieldPath> fieldPaths
-    ) {
+    private static <T> Specification<T> between(Filtering filter, List<FieldPath> fieldPaths) {
         return (root, query, criteriaBuilder) -> {
-            Path<?> path = (Path<?>) getPathForColumn(root, filter, fieldPaths);
+            Path<?> path = getPathForColumn(root, filter, fieldPaths);
             Class<?> fieldType = path.getJavaType();
 
             if (Number.class.isAssignableFrom(fieldType)) {
@@ -124,6 +125,29 @@ public class PaginationUtil {
             } else {
                 throw new IllegalArgumentException("Unsupported field type for between operation: " + fieldType);
             }
+        };
+    }
+
+    private static <T> Specification<T> containsAll(Filtering filter, List<FieldPath> fieldPaths) {
+        return (root, query, criteriaBuilder) -> {
+            Path<?> path = getPathForColumn(root, filter, fieldPaths);
+
+            if (!Collection.class.isAssignableFrom(path.getJavaType())) {
+                throw new IllegalArgumentException("Not a collection: " + filter.column());
+            }
+
+            @SuppressWarnings("unchecked")
+            Path<Collection<Object>> collectionPath = (Path<Collection<Object>>) path;
+
+            List<Object> values = filter.value();
+            if (values.isEmpty()) {
+                throw new IllegalArgumentException("Wrong lazy request");
+            }
+            Predicate predicate = criteriaBuilder.conjunction();
+            for (Object value : values) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.isMember(value, collectionPath));
+            }
+            return predicate;
         };
     }
 
@@ -165,16 +189,15 @@ public class PaginationUtil {
                 .collect(Collectors.toList());
     }
 
-    private static <T> Expression<String> getPathForColumn(Root<T> root, Filtering filter, List<FieldPath> fieldPaths) {
+    private static <T> Path<?> getPathForColumn(Root<T> root, Filtering filter, List<FieldPath> fieldPaths) {
         String column = fieldPaths.stream()
                 .filter(e -> e.target().equalsIgnoreCase(filter.column()))
                 .map(FieldPath::source).findFirst().orElse(filter.column());
         String[] parts = column.split("\\.");
         From<?, ?> from = root;
         for (int i = 0; i < parts.length - 1; i++) {
-            from = from.join(parts[i]);
+            from = from.join(parts[i], JoinType.LEFT);
         }
         return from.get(parts[parts.length - 1]);
     }
-
 }
