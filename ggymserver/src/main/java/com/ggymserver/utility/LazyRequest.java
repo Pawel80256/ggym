@@ -29,6 +29,6 @@ public record LazyRequest(
     ) {}
 
     public enum FilteringType {
-        EQUALS, LIKE, IN, BETWEEN, CONTAINS_ALL
+        EQUALS, LIKE, IN, BETWEEN
     }
 }

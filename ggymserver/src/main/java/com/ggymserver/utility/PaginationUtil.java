@@ -70,7 +70,6 @@ public class PaginationUtil {
                     case EQUALS -> PaginationUtil.<T>equals(filter, fieldPaths);
                     case IN -> PaginationUtil.<T>in(filter, fieldPaths);
                     case BETWEEN -> PaginationUtil.<T>between(filter, fieldPaths);
-                    case CONTAINS_ALL -> PaginationUtil.<T>containsAll(filter, fieldPaths);
                 }).reduce(Specification::and).orElse(null);
     }
 
@@ -125,29 +124,6 @@ public class PaginationUtil {
             } else {
                 throw new IllegalArgumentException("Unsupported field type for between operation: " + fieldType);
             }
-        };
-    }
-
-    private static <T> Specification<T> containsAll(Filtering filter, List<FieldPath> fieldPaths) {
-        return (root, query, criteriaBuilder) -> {
-            Path<?> path = getPathForColumn(root, filter, fieldPaths);
-
-            if (!Collection.class.isAssignableFrom(path.getJavaType())) {
-                throw new IllegalArgumentException("Not a collection: " + filter.column());
-            }
-
-            @SuppressWarnings("unchecked")
-            Path<Collection<Object>> collectionPath = (Path<Collection<Object>>) path;
-
-            List<Object> values = filter.value();
-            if (values.isEmpty()) {
-                throw new IllegalArgumentException("Wrong lazy request");
-            }
-            Predicate predicate = criteriaBuilder.conjunction();
-            for (Object value : values) {
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.isMember(value, collectionPath));
-            }
-            return predicate;
         };
     }
 
