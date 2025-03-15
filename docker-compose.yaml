@@ -2,8 +2,32 @@ services:
   db:
     image: postgres
     environment:
+      POSTGRES_DB: ggym
       POSTGRES_USER: dbuser
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: ggym
     ports:
       - "5432:5432"
+
+  keycloak-db:
+    image: postgres
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: kcuser
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+
+  keycloak:
+    image: keycloak/keycloak:26.1.4
+    platform: linux/amd64
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_PASSWORD: password
+      KC_DB_USERNAME: kcuser
+      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
+    command: start-dev
+    ports:
+      - "8081:8080"
+
