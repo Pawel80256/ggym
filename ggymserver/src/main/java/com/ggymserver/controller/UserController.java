@@ -27,13 +27,24 @@ public class UserController {
         return ResponseEntity.ok(userService.login(loginDTO));
     }
 
-    @PreAuthorize("hasAuthority('MANAGE_TRAINING')")
-    @GetMapping("/test")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/test-for-admin")
     public ResponseEntity<String> test() {
         int x = 2+1;
         for (int i = 0 ; i <= x ; i++){
             System.out.println("xd");
         }
-        return ResponseEntity.ok("test");
+        return ResponseEntity.ok("testADMIN");
     }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/test-for-user")
+    public ResponseEntity<String> test2() {
+        int x = 2+1;
+        for (int i = 0 ; i <= x ; i++){
+            System.out.println("xd");
+        }
+        return ResponseEntity.ok("testUSER");
+    }
+
 }

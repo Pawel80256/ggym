@@ -6,7 +6,11 @@ import com.ggymserver.dto.RegisterUserDTO;
 import com.ggymserver.entity.User;
 import com.ggymserver.mapper.UserMapper;
 import com.ggymserver.repository.UserRepository;
+import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.KeycloakBuilder;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,6 +29,25 @@ public class UserService {
     private final RoleService roleService;
 
     public void save(RegisterUserDTO registerUserDTO) {
+        Keycloak keycloak = KeycloakBuilder.builder()
+                .serverUrl("http://localhost:8081/")
+                .realm("ggym")
+                .username("ggymadmin")
+                .password("password")
+                .clientId("ggym-server")
+                .build();
+
+        UserRepresentation userRep = new UserRepresentation();
+        userRep.setUsername(registerUserDTO.name());
+        userRep.setEnabled(true);
+        userRep.setEmail(registerUserDTO.email());
+
+        Response response = keycloak.realm("ggym").users().create(userRep);
+        if (response.getStatus() != 201) {
+            throw new RuntimeException("Error creating user");
+        }
+        response.close();
+
         User user = userMapper.toEntity(registerUserDTO);
         user.setRoles(Collections.singleton(roleService.getUserRole()));
         userRepository.save(user);

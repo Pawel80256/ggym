@@ -21,7 +21,7 @@ public class GGUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
         for (Role role : user.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
             for (Permission permission : role.getPermissions()) {
                 authorities.add(new SimpleGrantedAuthority(permission.getName()));
             }
