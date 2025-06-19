@@ -22,10 +22,10 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
-        return ResponseEntity.ok(userService.login(loginDTO));
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
+//        return ResponseEntity.ok(userService.login(loginDTO));
+//    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/test-for-admin")

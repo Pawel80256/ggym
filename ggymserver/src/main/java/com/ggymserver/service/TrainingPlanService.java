@@ -9,7 +9,6 @@ import com.ggymserver.mapper.TrainingPlanMapper;
 import com.ggymserver.mapper.TrainingWeekMapper;
 import com.ggymserver.repository.TrainingPlanRepository;
 import com.ggymserver.repository.UserRepository;
-import com.ggymserver.utility.AuthUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,15 +26,15 @@ public class TrainingPlanService {
         return trainingPlanMapper.toDto(trainingPlan);
     }
 
-    public void create(TrainingPlanDto createDTO) {
-        TrainingPlan trainingPlan = trainingPlanMapper.toEntity(createDTO);
-
-        User createdBy = userRepository.findByName(AuthUtil.getCurrentUserName())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        trainingPlan.setOwner(createdBy);
-
-        trainingPlanRepository.save(trainingPlan);
-    }
+//    public void create(TrainingPlanDto createDTO) {
+//        TrainingPlan trainingPlan = trainingPlanMapper.toEntity(createDTO);
+//
+//        User createdBy = userRepository.findByName(AuthUtil.getCurrentUserName())
+//                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+//        trainingPlan.setOwner(createdBy);
+//
+//        trainingPlanRepository.save(trainingPlan);
+//    }
 
     public void update(Long trainingPlanId, TrainingPlanDto updateDTO) {
         var trainingPlan = trainingPlanRepository.findById(trainingPlanId)
