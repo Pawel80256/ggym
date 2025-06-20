@@ -7,6 +7,7 @@ import com.ggymserver.repository.UserRepository;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -25,9 +26,9 @@ public class UserService {
         Keycloak keycloak = KeycloakBuilder.builder()
                 .serverUrl("http://localhost:8081/")
                 .realm("ggym")
-                .username("ggymadmin")
-                .password("password")
                 .clientId("ggym-server")
+                .clientSecret("o2QJVmc6orIparHEIqoNxLBoLo2a12A9") //hide
+                .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                 .build();
 
         UserRepresentation userRep = createUserRepresentation(registerUserDTO);
