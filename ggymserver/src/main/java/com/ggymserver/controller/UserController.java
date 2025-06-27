@@ -1,7 +1,5 @@
 package com.ggymserver.controller;
 
-import com.ggymserver.dto.LoginDTO;
-import com.ggymserver.dto.LoginResponseDTO;
 import com.ggymserver.dto.RegisterUserDTO;
 import com.ggymserver.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +20,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
-//        return ResponseEntity.ok(userService.login(loginDTO));
-//    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/test-for-admin")
     public ResponseEntity<String> test() {
         int x = 2+1;
@@ -37,7 +30,7 @@ public class UserController {
         return ResponseEntity.ok("testADMIN");
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/test-for-user")
     public ResponseEntity<String> test2() {
         int x = 2+1;
