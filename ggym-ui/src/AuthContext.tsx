@@ -1,11 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {createContext, useContext, useEffect, useRef, useState} from "react";
 import Keycloak from "keycloak-js";
-
-const keycloak = new Keycloak({
-    url: "http://localhost:8081/",
-    realm: "ggym",
-    clientId: "ggym-ui",
-});
+import {keycloak} from "./keycloak.ts";
 
 interface AuthContextType {
     keycloak: Keycloak;
@@ -21,24 +16,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [authenticated, setAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const [token, setToken] = useState<string | undefined>(undefined);
+    const didInit = useRef(false);
 
     useEffect(() => {
-        keycloak.init({ onLoad: "login-required", checkLoginIframe: false })
-            .then(authenticated => {
-                setAuthenticated(authenticated);
-                setToken(authenticated ? keycloak.token : undefined);
+        if (didInit.current) return;
+        didInit.current = true;
+
+        keycloak.init({ onLoad: "login-required", checkLoginIframe: false, redirectUri: window.location.origin })
+            .then(auth => {
+                setAuthenticated(auth);
+                setToken(auth ? keycloak.token : undefined);
                 setLoading(false);
 
-                if (authenticated) {
-                    setInterval(() => {
-                        keycloak.updateToken(30).then(refreshed => {
+                if (auth) {
+                    const interval = setInterval(() => {
+                        keycloak.updateToken(30).then((refreshed) => {
                             if (refreshed) {
                                 setToken(keycloak.token);
                             }
-                        }).catch(() => {
-                            console.error("Error while refreshing token");
                         });
-                    }, 30000); //30s
+                    }, 30_000);
+                    return () => clearInterval(interval);
                 }
             })
             .catch(() => setLoading(false));
