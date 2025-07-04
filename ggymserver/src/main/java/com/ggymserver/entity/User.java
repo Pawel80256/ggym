@@ -44,6 +44,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Training> trainings = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "owner")
-    private Set<TrainingPlan> trainingPlans = new LinkedHashSet<>();
+//    @OneToMany(mappedBy = "owner")
+//    private Set<TrainingPlan> trainingPlans = new LinkedHashSet<>();
 }

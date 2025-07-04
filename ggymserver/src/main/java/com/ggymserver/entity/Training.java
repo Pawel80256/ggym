@@ -19,12 +19,12 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @ColumnDefault("nextval('training_training_plan_id_seq')")
-    @JoinColumn(name = "training_plan_id", nullable = false)
-    private TrainingPlan trainingPlan;
+//
+//    @NotNull
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @ColumnDefault("nextval('training_training_plan_id_seq')")
+//    @JoinColumn(name = "training_plan_id", nullable = false)
+//    private TrainingPlan trainingPlan;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -50,8 +50,8 @@ public class Training {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified;
-
-    @OneToMany(mappedBy = "training")
-    private Set<ExerciseInstance> exerciseInstances = new LinkedHashSet<>();
+//
+//    @OneToMany(mappedBy = "training")
+//    private Set<ExerciseInstance> exerciseInstances = new LinkedHashSet<>();
 
 }
